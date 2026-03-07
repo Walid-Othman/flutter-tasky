@@ -284,13 +284,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Divider(thickness: 1),
                         ListTile(
                           onTap: () async {
-                            final token = PrefrenseManger().getString(
-                              "auth_token",
-                            );
-                            print("this is token befor del : $token");
                             setState(() {
                               // pref.remove('auth_token');
                               PrefrenseManger().remove('auth_token');
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                  builder: (context) => WelcomeScreen(),
+                                ),
+                                (Route<dynamic> route) => false,
+                              );
                             });
                           },
                           contentPadding: EdgeInsets.zero,

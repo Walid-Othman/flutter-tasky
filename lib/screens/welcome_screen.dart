@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:to_do_app/Services/google_servic.dart';
+import 'package:to_do_app/screens/main_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});
@@ -95,16 +96,16 @@ class WelcomeScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 8),
+                      SizedBox(height: 50),
 
-                      CustomeTextFormFild(
-                        controller: controller,
-                        hintText: 'e.g.  Walid Othman',
-                        title: 'Full Name',
-                        validator: (value) {
-                          return "please Enter your name";
-                        },
-                      ),
+                      // CustomeTextFormFild(
+                      //   controller: controller,
+                      //   hintText: 'e.g.  Walid Othman',
+                      //   title: 'Full Name',
+                      //   validator: (value) {
+                      //     return "please Enter your name";
+                      //   },
+                      // ),
 
                       SizedBox(height: 24),
 
@@ -138,9 +139,13 @@ class WelcomeScreen extends StatelessWidget {
                       // ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          backgroundColor:Colors.transparent,
+                          side: BorderSide(
+                            color:Colors.white
+                          ),
                           fixedSize: Size(
                             MediaQuery.of(context).size.width,
-                            45,
+                            60,
                           ),
                         ),
                         onPressed: () async {
@@ -159,27 +164,26 @@ class WelcomeScreen extends StatelessWidget {
                           Navigator.pop(context);
 
                           if (success) {
-                            // الانتقال لصفحة الـ Home لو نجح
-                            //  MaterialPageRoute(
-                            //  builder: (BuildContext context) => HomeScreen(),
-                            //                          );
+                  
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomeScreen(),
+                                builder: (context) => MainScreen(),
                               ),
                             );
                           } else {
                             // إظهار رسالة خطأ
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("فشل تسجيل الدخول بجوجل")),
+                              SnackBar(content: Text("Faild to log in with Google")),
                             );
                           }
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text("Use google", style: TextStyle(fontSize: 20)),
+                            Image.network('https://emtech.suny.edu/wp-content/uploads/2000px-Google_22G22_Logo.svg_.png',width: 40,),
+                            SizedBox(width: 10,),
+                            Text("Sign in with Google", style: TextStyle(fontSize: 16)),
                           ],
                         ),
                       ),

@@ -11,7 +11,7 @@ import 'package:to_do_app/core/widgets/Achieved_Tasks_widget.dart';
 import 'package:to_do_app/core/widgets/High_Priority_Widget.dart';
 import 'package:to_do_app/core/widgets/sliver_task_list_wedget.dart';
 import 'package:to_do_app/core/widgets/task_list_wedget.dart';
-import 'add_task.dart';
+import '../add_task/add_task.dart';
 import 'dart:math';
 
 class HomeScreen extends StatefulWidget {

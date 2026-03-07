@@ -4,9 +4,9 @@ import 'package:to_do_app/Services/prefrense_manger_service.dart';
 import 'package:to_do_app/core/theme/dark_theme.dart';
 import 'package:to_do_app/core/theme/light_theme.dart';
 import 'package:to_do_app/core/theme/theme_controller.dart';
-import 'package:to_do_app/screens/home_screen.dart';
-import 'package:to_do_app/screens/main_screen.dart';
-import 'package:to_do_app/screens/welcome_screen.dart';
+import 'package:to_do_app/core/features/home/home_screen.dart';
+import 'package:to_do_app/core/features/Navigation/main_screen.dart';
+import 'package:to_do_app/core/features/welcome/welcome_screen.dart';
 
 
 void main() async {

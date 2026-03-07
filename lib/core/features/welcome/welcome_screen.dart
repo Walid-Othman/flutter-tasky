@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:to_do_app/core/widgets/custome_svg_widget.dart';
 import 'package:to_do_app/core/widgets/custome_text_form_fild_widget.dart';
-import 'package:to_do_app/screens/home_screen.dart';
+import 'package:to_do_app/core/features/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:to_do_app/Services/google_servic.dart';
-import 'package:to_do_app/screens/main_screen.dart';
+import 'package:to_do_app/core/features/Navigation/main_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});

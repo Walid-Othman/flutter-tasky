@@ -11,8 +11,8 @@ import 'package:to_do_app/Services/profile_service.dart';
 import 'package:to_do_app/core/widgets/custome_svg_widget.dart';
 import 'package:to_do_app/main.dart';
 import 'package:to_do_app/models/profile_model.dart';
-import 'package:to_do_app/screens/user_details_screen.dart';
-import 'package:to_do_app/screens/welcome_screen.dart';
+import 'package:to_do_app/core/features/profile/user_details_screen.dart';
+import 'package:to_do_app/core/features/welcome/welcome_screen.dart';
 import 'package:to_do_app/core/theme/theme_controller.dart';
 
 class ProfileScreen extends StatefulWidget {

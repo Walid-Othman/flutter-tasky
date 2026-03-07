@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:to_do_app/core/theme/theme_controller.dart';
 import 'package:to_do_app/core/widgets/custome_chick_box.dart';
 import 'package:to_do_app/models/task_model.dart';
-import 'package:to_do_app/screens/high_priority_screen.dart';
+import 'package:to_do_app/core/features/tasks/high_priority_screen.dart';
 
 class HighPriority extends StatelessWidget {
   HighPriority({

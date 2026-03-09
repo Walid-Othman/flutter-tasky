@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:to_do_app/core/widgets/custome_svg_widget.dart';
-import 'package:to_do_app/core/widgets/custome_text_form_fild_widget.dart';
-import 'package:to_do_app/core/features/home/home_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart' as http;
+import 'package:to_do_app/core/components/custome_svg_widget.dart';
 import 'package:to_do_app/Services/google_servic.dart';
 import 'package:to_do_app/core/features/Navigation/main_screen.dart';
 
@@ -14,16 +8,6 @@ class WelcomeScreen extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
   final TextEditingController password = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  Future getName(String userName) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userName', userName);
-  }
-
-  Future chickToken() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    final userToken = pref.getString('auth_token');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,51 +82,12 @@ class WelcomeScreen extends StatelessWidget {
                     children: [
                       SizedBox(height: 50),
 
-                      // CustomeTextFormFild(
-                      //   controller: controller,
-                      //   hintText: 'e.g.  Walid Othman',
-                      //   title: 'Full Name',
-                      //   validator: (value) {
-                      //     return "please Enter your name";
-                      //   },
-                      // ),
-
                       SizedBox(height: 24),
 
-                      // ElevatedButton(
-                      //   style: ElevatedButton.styleFrom(
-                      //     backgroundColor: Color(0xFF15B86C),
-                      //     foregroundColor: Color(0xFFFFFCFC),
-                      //     fixedSize: Size(
-                      //       MediaQuery.of(context).size.width,
-                      //       40,
-                      //     ),
-                      //   ),
-                      //   onPressed: () async {
-                      //     if (_key.currentState?.validate() ?? false) {
-                      //       await getName(controller.text);
-                      //       Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (BuildContext context) => HomeScreen(),
-                      //         ),
-                      //       );
-                      //     }
-                      //   },
-                      //   child: Text(
-                      //     "Let’s Get Started",
-                      //     style: TextStyle(
-                      //       fontSize: 18,
-                      //       fontWeight: FontWeight.w500,
-                      //     ),
-                      //   ),
-                      // ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:Colors.transparent,
-                          side: BorderSide(
-                            color:Colors.white
-                          ),
+                          backgroundColor: Colors.transparent,
+                          side: BorderSide(color: Colors.white),
                           fixedSize: Size(
                             MediaQuery.of(context).size.width,
                             60,
@@ -164,7 +109,6 @@ class WelcomeScreen extends StatelessWidget {
                           Navigator.pop(context);
 
                           if (success) {
-                  
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -174,16 +118,24 @@ class WelcomeScreen extends StatelessWidget {
                           } else {
                             // إظهار رسالة خطأ
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Faild to log in with Google")),
+                              SnackBar(
+                                content: Text("Faild to log in with Google"),
+                              ),
                             );
                           }
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.network('https://emtech.suny.edu/wp-content/uploads/2000px-Google_22G22_Logo.svg_.png',width: 40,),
-                            SizedBox(width: 10,),
-                            Text("Sign in with Google", style: TextStyle(fontSize: 16)),
+                            Image.network(
+                              'https://emtech.suny.edu/wp-content/uploads/2000px-Google_22G22_Logo.svg_.png',
+                              width: 40,
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              "Sign in with Google",
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ],
                         ),
                       ),

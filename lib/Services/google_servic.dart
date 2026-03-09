@@ -2,6 +2,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app/Services/prefrense_manger_service.dart';
+import 'package:to_do_app/core/constants/storage_key.dart';
 
 class GoogleAuthService {
   // تعريف جوجل ساين إن
@@ -38,9 +40,10 @@ class GoogleAuthService {
         print("البيانات المستلمة من السيرفر: $data");
         // 4. حفظ الـ Token اللي لارفل بعته في ذاكرة الموبايل
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('auth_token', token);
-        await prefs.setString('user_name', name);
-        await prefs.setInt('user_id', userId);
+        await prefs.setString(StorageKey.autToken, token);
+        await prefs.setString(StorageKey.userName, name);
+        await prefs.setInt(StorageKey.userId, userId);
+
         print("the user is : ${data['user']} \n the token is ${data['token']}");
         return true; // نجاح العملية
       } else {

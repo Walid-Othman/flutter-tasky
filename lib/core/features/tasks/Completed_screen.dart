@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/Services/taskService.dart';
-import 'package:to_do_app/core/widgets/set_tasks.dart';
+import 'package:to_do_app/Services/set_tasks.dart';
 import 'package:to_do_app/models/task_model.dart';
 
-import 'package:to_do_app/core/widgets/task_list_wedget.dart';
+import 'package:to_do_app/core/components/task_list_wedget.dart';
 
 class CompletedScreen extends StatefulWidget {
   const CompletedScreen({super.key});

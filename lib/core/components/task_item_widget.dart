@@ -3,10 +3,10 @@ import 'package:to_do_app/Services/taskService.dart';
 import 'package:to_do_app/core/enums/action_enum.dart';
 import 'package:to_do_app/core/enums/popup_menu_button_enum.dart';
 import 'package:to_do_app/core/theme/theme_controller.dart';
-import 'package:to_do_app/core/widgets/custome_alert_dialog.dart';
-import 'package:to_do_app/core/widgets/custome_chick_box.dart';
-import 'package:to_do_app/core/widgets/custome_edit_add_task.dart';
-import 'package:to_do_app/core/widgets/custome_text_form_fild_widget.dart';
+import 'package:to_do_app/core/components/custome_alert_dialog.dart';
+import 'package:to_do_app/core/components/custome_chick_box.dart';
+import 'package:to_do_app/core/components/custome_edit_add_task.dart';
+import 'package:to_do_app/core/components/custome_text_form_fild_widget.dart';
 import 'package:to_do_app/models/task_model.dart';
 
 class TaskItemWidget extends StatefulWidget {

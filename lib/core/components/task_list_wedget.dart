@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:to_do_app/core/widgets/custome_chick_box.dart';
-import 'package:to_do_app/core/widgets/task_item_widget.dart';
+import 'package:to_do_app/core/components/custome_chick_box.dart';
+import 'package:to_do_app/core/components/task_item_widget.dart';
 import 'dart:convert';
 
 import 'package:to_do_app/models/task_model.dart';

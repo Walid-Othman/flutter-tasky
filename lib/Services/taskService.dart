@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app/Services/prefrense_manger_service.dart';
+import 'package:to_do_app/core/constants/storage_key.dart';
 import 'dart:convert';
 import '../models/task_model.dart';
 
@@ -17,20 +19,20 @@ class TaskService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final SharedPreferences pref = await SharedPreferences.getInstance();
-          final String token = pref.getString('auth_token') ?? "";
+          final String token =
+              PrefrenseManger().getString(StorageKey.autToken) ?? "";
+
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
           return handler.next(options);
         },
         onError: (DioException e, handler) async {
-
-        if (e.response?.statusCode == 401) {
+          if (e.response?.statusCode == 401) {
             // 1. الوصول لـ SharedPreferences لحذف التوكن
-            final SharedPreferences pref = await SharedPreferences.getInstance();
-            await pref.remove('auth_token');
-            
+
+            await PrefrenseManger().remove(StorageKey.autToken);
+
             print("غير مصرح به (401): تم حذف التوكن والتوجه لتسجيل الدخول.");
 
             // 2. التوجيه لصفحة تسجيل الدخول (Login)
@@ -39,17 +41,15 @@ class TaskService {
           }
 
           return handler.next(e);
-          
         },
       ),
     );
   }
 
   Future<List<TaskModel>> getTasks() async {
-
     try {
       final response = await _dio.get('/tasks');
-   
+
       List<dynamic> data = response.data['data'];
       return data.map((task) => TaskModel.fromJson(task)).toList();
     } on DioException catch (e) {

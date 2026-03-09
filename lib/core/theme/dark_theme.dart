@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
-    textButtonTheme: TextButtonThemeData(
-    style:ButtonStyle(
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
       foregroundColor: WidgetStateProperty.all(Color(0xFFfcfcfc)),
-    )
+    ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -69,7 +69,6 @@ ThemeData darkTheme = ThemeData(
       borderSide: BorderSide.none,
       borderRadius: BorderRadius.circular(16),
     ),
-
     hintStyle: TextStyle(color: Color(0xFF6D6D6D)),
     fillColor: Color(0xFF282828),
     filled: true,
@@ -103,36 +102,37 @@ ThemeData darkTheme = ThemeData(
   popupMenuTheme: PopupMenuThemeData(
     color: Color(0xFF181818),
     position: PopupMenuPosition.under,
-   labelTextStyle: WidgetStateProperty.all(TextStyle(
-    color:Color(0xFFfffcfc),
-    fontSize: 16,
-    fontWeight: FontWeight.w400
-   )),
-    shape:RoundedRectangleBorder(
+    labelTextStyle: WidgetStateProperty.all(
+      TextStyle(
+        color: Color(0xFFfffcfc),
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
-      side:BorderSide(color:Color(0xFF6E6E6E))
+      side: BorderSide(color: Color(0xFF6E6E6E)),
+    ),
+    elevation: 2,
+    shadowColor: Color(0xFFfcfcfc),
   ),
-  elevation: 2,
-  shadowColor: Color(0xFFfcfcfc),
+  dialogTheme: DialogThemeData(
+    shadowColor: Color(0xFFfcfcfc),
+    backgroundColor: Color(0xFF181818),
+    titleTextStyle: TextStyle(
+      color: Color(0xFFfffcfc),
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+    ),
+    contentTextStyle: TextStyle(
+      color: Color(0xFFfffcfc),
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+    actionsPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+      side: BorderSide(color: Colors.red),
+    ),
   ),
-  dialogTheme:DialogThemeData(
- 
-  shadowColor: Color(0xFFfcfcfc),
-   backgroundColor: Color(0xFF181818),
-   titleTextStyle: TextStyle(
-    color: Color(0xFFfffcfc),
-    fontSize: 24,
-    fontWeight: FontWeight.w400,
-   ),
-   contentTextStyle: TextStyle(
-    color: Color(0xFFfffcfc),
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-   ),
-   actionsPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(12),
-    side: BorderSide(color: Colors.red),
-)
-),
 );

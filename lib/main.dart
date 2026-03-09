@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/Services/prefrense_manger_service.dart';
+import 'package:to_do_app/core/constants/storage_key.dart';
 import 'package:to_do_app/core/theme/dark_theme.dart';
 import 'package:to_do_app/core/theme/light_theme.dart';
 import 'package:to_do_app/core/theme/theme_controller.dart';
@@ -8,25 +9,20 @@ import 'package:to_do_app/core/features/home/home_screen.dart';
 import 'package:to_do_app/core/features/Navigation/main_screen.dart';
 import 'package:to_do_app/core/features/welcome/welcome_screen.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences pref = await SharedPreferences.getInstance();
-  final userToken = pref.getString('auth_token');
-  final userName = pref.getString('userName');
+  final userToken = pref.getString(StorageKey.autToken);
+
   await PrefrenseManger().init();
- ThemeController().init();
-  
-  runApp(MyApp(userToken: userToken, userName: userName));
+  ThemeController().init();
+
+  runApp(MyApp(userToken: userToken));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key, required this.userToken, required this.userName});
+  MyApp({super.key, required this.userToken});
   final String? userToken;
-  final String? userName;
-
-
-
 
   @override
   Widget build(BuildContext context) {

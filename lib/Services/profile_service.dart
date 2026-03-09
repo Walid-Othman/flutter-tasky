@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app/Services/prefrense_manger_service.dart';
+import 'package:to_do_app/core/constants/storage_key.dart';
 import 'package:to_do_app/models/profile_model.dart';
 
 class ProfileService {
@@ -16,8 +18,7 @@ class ProfileService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final pref = await SharedPreferences.getInstance();
-          final token = pref.getString('auth_token');
+          final token = PrefrenseManger().getString(StorageKey.autToken);
           options.headers['Accept'] = 'application/json';
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -46,7 +47,7 @@ class ProfileService {
     }
   }
 
-Future<bool> updateProfile(ProfileModel profile) async {
+  Future<bool> updateProfile(ProfileModel profile) async {
     try {
       // 1. تحويل المودل لـ Map
       Map<String, dynamic> dataMap = profile.toMap();

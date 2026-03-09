@@ -5,12 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/Services/git_user_data.dart';
 import 'package:to_do_app/Services/taskService.dart';
-import 'package:to_do_app/core/widgets/set_tasks.dart';
+import 'package:to_do_app/Services/set_tasks.dart';
 import 'package:to_do_app/models/task_model.dart';
-import 'package:to_do_app/core/widgets/Achieved_Tasks_widget.dart';
-import 'package:to_do_app/core/widgets/High_Priority_Widget.dart';
-import 'package:to_do_app/core/widgets/sliver_task_list_wedget.dart';
-import 'package:to_do_app/core/widgets/task_list_wedget.dart';
+import 'package:to_do_app/core/features/home/components/Achieved_Tasks_widget.dart';
+import 'package:to_do_app/core/features/home/components/High_Priority_Widget.dart';
+import 'package:to_do_app/core/features/home/components/sliver_task_list_wedget.dart';
+import 'package:to_do_app/core/components/task_list_wedget.dart';
 import '../add_task/add_task.dart';
 import 'dart:math';
 

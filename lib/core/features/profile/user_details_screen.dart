@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app/Services/prefrense_manger_service.dart';
 import 'package:to_do_app/Services/profile_service.dart';
-import 'package:to_do_app/core/widgets/custome_text_form_fild_widget.dart';
+import 'package:to_do_app/core/components/custome_text_form_fild_widget.dart';
+import 'package:to_do_app/core/constants/storage_key.dart';
 import 'package:to_do_app/models/profile_model.dart';
 
 class UserDetailsScreen extends StatefulWidget {
@@ -54,8 +56,8 @@ class _UserDetailsScreen extends State<UserDetailsScreen> {
               // TEXT FORM FIELD FOR DESCRIPTION ENDS HERE
               ElevatedButton(
                 onPressed: () async {
-                  final pref = await SharedPreferences.getInstance();
-                  final userId = pref.getInt('user_id');
+                  final userId = PrefrenseManger().getInt(StorageKey.userId);
+
                   if (_key.currentState?.validate() ?? false) {
                     final model = ProfileModel(
                       userDiscription: userDiscription.text,

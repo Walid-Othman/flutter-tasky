@@ -8,7 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/Services/git_user_data.dart';
 import 'package:to_do_app/Services/prefrense_manger_service.dart';
 import 'package:to_do_app/Services/profile_service.dart';
-import 'package:to_do_app/core/widgets/custome_svg_widget.dart';
+import 'package:to_do_app/core/components/custome_svg_widget.dart';
+import 'package:to_do_app/core/constants/storage_key.dart';
 import 'package:to_do_app/main.dart';
 import 'package:to_do_app/models/profile_model.dart';
 import 'package:to_do_app/core/features/profile/user_details_screen.dart';
@@ -29,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _loadSettings();
   }
 
-  // bool isDark = false;
+
   String userName = "Gust";
   String userDescraption = "";
   String imageFromDB = "";
@@ -138,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future _loadSettings() async {
-    userId = PrefrenseManger().getInt('user_id');
+    userId = PrefrenseManger().getInt(StorageKey.userId);
     isLoading = true;
     final response = await GitUserData().loadSettings();
     if (!mounted) return;
@@ -285,8 +286,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ListTile(
                           onTap: () async {
                             setState(() {
-                              // pref.remove('auth_token');
-                              PrefrenseManger().remove('auth_token');
+                              
+                              PrefrenseManger().remove(StorageKey.autToken);
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                   builder: (context) => WelcomeScreen(),

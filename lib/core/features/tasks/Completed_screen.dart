@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/Services/taskService.dart';
 import 'package:to_do_app/Services/set_tasks.dart';
+import 'package:to_do_app/core/Controllers/data_controller.dart';
 import 'package:to_do_app/models/task_model.dart';
 
 import 'package:to_do_app/core/components/task_list_wedget.dart';
@@ -26,21 +28,22 @@ class _TasksScreenState extends State<CompletedScreen> {
   List<TaskModel> tasks = [];
 
   Future<void> _loadTask() async {
-    try {
-      isLoding = true;
-      final allTasks = await TaskService().getTasks();
-      final completTasks = allTasks.where((e) => e.isComplet).toList();
-      setState(() {
-        tasks = completTasks;
-        isLoding = false;
-      });
-    } catch (e) {
-      print("Some thing went wrong : $e");
-    }
+    // try {
+    //   isLoding = true;
+    //   final allTasks = await TaskService().getTasks();
+    //   final completTasks = allTasks.where((e) => e.isComplet).toList();
+    //   setState(() {
+    //     tasks = completTasks;
+    //     isLoding = false;
+    //   });
+    // } catch (e) {
+    //   print("Some thing went wrong : $e");
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
+    tasks = context.watch<DataController>().completeTasks;
     return Scaffold(
       appBar: AppBar(title: Text('Completed Tasks'), toolbarHeight: 60),
       body: Padding(
@@ -73,22 +76,23 @@ class _TasksScreenState extends State<CompletedScreen> {
                         SetTasks(tasks: tasks).delTask(index);
                       });
                     },
-                onTap: (bool? value, int? index) async {
+                onTap: (bool? value, int? index)  {
                   if (index == null) return;
                   final updtatTask = tasks[index];
-                  updtatTask.isComplet = value ?? false;
-                  setState(() {
-                    tasks.removeAt(index);
-                  });
-                  bool success = await TaskService().upDateTask(updtatTask);
-                  if (!success) {
-                    _loadTask();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Failed to update task on server"),
-                      ),
-                    );
-                  }
+                  context.read<DataController>().toggleTask(updtatTask);
+                  // updtatTask.isComplet = value ?? false;
+                  // setState(() {
+                  //   tasks.removeAt(index);
+                  // });
+                  // bool success = await TaskService().upDateTask(updtatTask);
+                  // if (!success) {
+                  //   _loadTask();
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(
+                  //       content: Text("Failed to update task on server"),
+                  //     ),
+                  //   );
+                  // }
                 },
               ),
       ),

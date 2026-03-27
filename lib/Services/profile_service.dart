@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app/Services/ip_config.dart';
 import 'package:to_do_app/Services/prefrense_manger_service.dart';
 import 'package:to_do_app/core/constants/storage_key.dart';
 import 'package:to_do_app/models/profile_model.dart';
 
 class ProfileService {
   late Dio _dio;
-  final String basUrl = 'http://10.142.8.89:8000/api/';
+  final String basUrl = 'http://${IpConfig.ipConfig}:8000/api/';
   ProfileService() {
     _dio = Dio(
       BaseOptions(

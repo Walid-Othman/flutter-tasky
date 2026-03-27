@@ -41,6 +41,11 @@ class _AddTaskState extends State<AddTask> {
               formkey: _key,
               callApi: (TaskModel model) async {
                 bool success = await TaskService().addTask(model);
+                if(success){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Task added Successfully")));
+                }else{
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Faild to add task')));
+                }
                 return success;
               },
             ),

@@ -1,18 +1,18 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_app/Services/git_user_data.dart';
 import 'package:to_do_app/Services/taskService.dart';
 import 'package:to_do_app/Services/set_tasks.dart';
+import 'package:to_do_app/core/Controllers/data_controller.dart';
+import 'package:to_do_app/core/Controllers/profile_controller.dart';
 import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/core/features/home/components/Achieved_Tasks_widget.dart';
 import 'package:to_do_app/core/features/home/components/High_Priority_Widget.dart';
 import 'package:to_do_app/core/features/home/components/sliver_task_list_wedget.dart';
-import 'package:to_do_app/core/components/task_list_wedget.dart';
 import '../add_task/add_task.dart';
-import 'dart:math';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool isLoding = false;
   int hour = DateTime.now().hour;
   String getGreeting() {
     if (hour >= 0 && hour < 12) {
@@ -37,59 +36,39 @@ class _HomeScreenState extends State<HomeScreen> {
   String imageFromDB = "";
 
   _doneTasks(bool value, int index) async {
-    setState(() {
-      tasks[index].isComplet = value;
-    });
-    await TaskService().upDateTask(tasks[index]);
+
+    context.read<DataController>().toggleTask(tasks[index]);
   }
 
-  String userName = 'Guest';
+  String userName = '';
   bool isComblete = true;
   @override
   initState() {
     super.initState();
 
     _loadTask();
-    _loadSettings();
   }
 
-  Future _loadSettings() async {
-    final response = await GitUserData().loadSettings();
-    if (!mounted) return;
-    setState(() {
-      if (response != null) {
-        userName = response.userName;
-        imageFromDB = response.image ?? "";
-      }
-    });
-  }
+  ImageProvider _getProfileImageProvider(String image) {
 
-  ImageProvider _getProfileImage() {
-    if (imageFromDB.startsWith('http')) {
-      return NetworkImage(imageFromDB);
-    } else if (imageFromDB.isNotEmpty) {
-      // لو المستخدم لسه مختار صورة من الموبايل، هنعرضها كملف
-      return FileImage(File(imageFromDB));
-    } else {
-      // الصورة الافتراضية
-      return const AssetImage('assets/images/personTwo.webp');
+
+    if (image.startsWith('http')) {
+      // كسر الـ Cache بإضافة timestamp للرابط
+      return NetworkImage(image);
     }
+
+    return FileImage(File(image));
   }
+
 
   List<TaskModel> tasks = [];
+
   int get doneTasksCount => tasks.where((task) => task.isComplet).length;
   double get completionRatio =>
       tasks.isEmpty ? 0.0 : (doneTasksCount / tasks.length);
   Future<void> _loadTask() async {
     try {
-      isLoding = true;
-      final finalTasks = await TaskService().getTasks();
-
-      setState(() {
-        tasks = finalTasks;
-
-        isLoding = false;
-      });
+      context.read<DataController>().getTasks();
     } catch (e) {
       print("the error is : $e");
     }
@@ -97,11 +76,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(42.h);
+    ProfileController controller = context.watch<ProfileController>();
+    userName = controller.userName;
+    tasks = context.watch<DataController>().tasks;
+    bool isLoding = context.watch<DataController>().isLoading;
     return Scaffold(
       appBar: AppBar(),
       floatingActionButton: SizedBox(
-        width: 168,
-        height: 40,
+        width: 168.w,
+        height: 40.h,
         child: FloatingActionButton.extended(
           onPressed: () async {
             final bool? result = await Navigator.push(
@@ -136,10 +120,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
-                        backgroundImage: _getProfileImage(),
+                      Selector<ProfileController, String>(
+                        selector: (context, controller) =>
+                            controller.imageFromDB,
+                        builder: (_, imageFromDb, _) {
+                          return CircleAvatar(
+                            backgroundImage: _getProfileImageProvider(
+                              imageFromDb,
+                            ),
+                          );
+                        },
                       ),
-                      SizedBox(width: 8),
+                      SizedBox(width: 8.w),
 
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,17 +144,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             'One task at a time.One step\n closer. ',
                             style: Theme.of(context).textTheme.titleSmall,
-                            // style: TextStyle(
-                            //   color: Color(0xFFC6C6C6),
-                            //   fontWeight: FontWeight.w400,
-                            //   fontSize: 14,
-                            // ),
+                        
                           ),
                         ],
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -181,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
 
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   HighPriority(
                     tasks: tasks,
                     onTap: (bool value, int index) {

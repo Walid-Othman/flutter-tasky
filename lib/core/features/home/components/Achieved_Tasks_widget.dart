@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:to_do_app/Services/app_sizes.dart';
 
 class AchievedTasks extends StatelessWidget {
   const AchievedTasks({
@@ -42,8 +44,8 @@ class AchievedTasks extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               SizedBox(
-                width: 48,
-                height: 48,
+                width:AppSizes.w48,
+                height: AppSizes.h48,
                 child: CircularProgressIndicator(
                   strokeWidth: 4,
                   valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF15B86C)),
@@ -53,7 +55,7 @@ class AchievedTasks extends StatelessWidget {
               ),
               Text(
                 "${(completionRatio * 100).toInt()}%",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14.sp),
               ),
             ],
           ),

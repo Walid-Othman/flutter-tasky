@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:to_do_app/Services/app_sizes.dart';
 import 'package:to_do_app/core/theme/theme_controller.dart';
 import 'package:to_do_app/core/components/custome_chick_box.dart';
 import 'package:to_do_app/models/task_model.dart';
@@ -102,8 +103,8 @@ class HighPriority extends StatelessWidget {
               },
               child: Container(
                 alignment: Alignment.center,
-                width: 40,
-                height: 40,
+                width: AppSizes.w40,
+                height: AppSizes.h40,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   border: Border.all(
@@ -116,8 +117,8 @@ class HighPriority extends StatelessWidget {
 
                 child: SvgPicture.asset(
                   'assets/images/arrow-up-right.svg',
-                  width: 24,
-                  height: 24,
+                  width: AppSizes.w24,
+                  height: AppSizes.h24,
                   colorFilter: ColorFilter.mode(
                     ThemeController.isDark()
                         ? Color(0xFFC6C6C6)

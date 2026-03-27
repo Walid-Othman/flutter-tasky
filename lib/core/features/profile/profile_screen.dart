@@ -1,48 +1,42 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:http/http.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:to_do_app/Services/git_user_data.dart';
-import 'package:to_do_app/Services/prefrense_manger_service.dart';
-import 'package:to_do_app/Services/profile_service.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/core/Controllers/profile_controller.dart';
+import 'package:to_do_app/core/components/custome_alert_dialog.dart';
 import 'package:to_do_app/core/components/custome_svg_widget.dart';
-import 'package:to_do_app/core/constants/storage_key.dart';
-import 'package:to_do_app/main.dart';
-import 'package:to_do_app/models/profile_model.dart';
+import 'package:to_do_app/core/enums/action_enum.dart';
 import 'package:to_do_app/core/features/profile/user_details_screen.dart';
 import 'package:to_do_app/core/features/welcome/welcome_screen.dart';
 import 'package:to_do_app/core/theme/theme_controller.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  ProfileScreen({super.key});
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
+  ImageProvider _getProfileImageProvider(String image) {
+    // if (image.isEmpty) {
+    //   return const AssetImage('assets/images/personTwo.webp');
+    // }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  void initState() {
-    super.initState();
-    _loadSettings();
+    if (image.startsWith('http')) {
+      // كسر الـ Cache بإضافة timestamp للرابط
+      return NetworkImage(image);
+    }
+
+    return FileImage(File(image));
   }
+  // File? _fileImage;
 
+  final ImagePicker imagePicker = ImagePicker();
 
-  String userName = "Gust";
-  String userDescraption = "";
-  String imageFromDB = "";
-  File? _fileImage;
-  ImagePicker imagePicker = ImagePicker();
+  final bool isLoading = false;
 
-  bool isLoading = false;
-  var userId;
-
-  _showDiloge(context) {
+  void _showDiloge(BuildContext rootContext) {
     showDialog(
-      context: context,
+      // context: context,
+      context: rootContext,
       builder: (context) => SimpleDialog(
         alignment: Alignment.center,
         title: Text(
@@ -57,7 +51,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
               XFile? image = await imagePicker.pickImage(
                 source: ImageSource.camera,
               );
-              _updateImageRequst(image);
+              if(image == null ) return ; 
+              // _updateImageRequst(image);
+              // if (!mounted) return;
+              ProfileController controller = rootContext
+                  .read<ProfileController>();
+              bool response = await controller.updateImageRequst(image);
+              if (response) {
+                ScaffoldMessenger.of(rootContext).showSnackBar(
+                  SnackBar(content: Text("Imgage Updated Successfully")),
+                );
+              } else {
+                ScaffoldMessenger.of(rootContext).showSnackBar(
+                  SnackBar(content: Text("Falid to update image")),
+                );
+              }
             },
             child: Row(
               children: [
@@ -78,7 +86,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
               XFile? image = await imagePicker.pickImage(
                 source: ImageSource.gallery,
               );
-              _updateImageRequst(image);
+              if(image == null) return ;
+              // _updateImageRequst(image);
+              // if (!mounted) return;
+              ProfileController controller = rootContext
+                  .read<ProfileController>();
+              bool response = await controller.updateImageRequst(image);
+              if (response) {
+                ScaffoldMessenger.of(rootContext).showSnackBar(
+                  SnackBar(content: Text("Imgage Updated Successfully")),
+                );
+              } else {
+                ScaffoldMessenger.of(rootContext).showSnackBar(
+                  SnackBar(content: Text("Falid to update image")),
+                );
+              }
             },
             child: Row(
               children: [
@@ -99,62 +121,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Future _updateImageRequst(image) async {
-    if (image == null) {
-      return;
-    } else {
-      setState(() {
-        imageFromDB = image.path;
-      });
-    }
-
-    final model = ProfileModel(
-      profileId: userId,
-      userDiscription: userDescraption,
-      userName: userName,
-      image: image.path,
-    );
-
-    final bool response = await ProfileService().updateProfile(model);
-    if (response) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Imgage Updated Successfully")));
-    } else
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Falid to update image")));
-  }
-
-  ImageProvider _getProfileImage() {
-    if (imageFromDB.startsWith('http')) {
-      return NetworkImage(imageFromDB);
-    } else if (imageFromDB.isNotEmpty) {
-      // لو المستخدم لسه مختار صورة من الموبايل، هنعرضها كملف
-      return FileImage(File(imageFromDB));
-    } else {
-      // الصورة الافتراضية
-      return const AssetImage('assets/images/personTwo.webp');
-    }
-  }
-
-  Future _loadSettings() async {
-    userId = PrefrenseManger().getInt(StorageKey.userId);
-    isLoading = true;
-    final response = await GitUserData().loadSettings();
-    if (!mounted) return;
-    setState(() {
-      if (response != null) {
-        userDescraption = response.userDiscription;
-        userName = response.userName;
-        imageFromDB = response.image ?? "";
-        isLoading = false;
-      }
-    });
-  }
-
+  // Future _updateImageRequst(image) async {
   @override
   Widget build(BuildContext context) {
+    print("this is profile:${context.watch<ProfileController>().profile}");
     return SafeArea(
       child: isLoading
           ? Center(child: CircularProgressIndicator())
@@ -175,31 +145,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Center(
                   child: Stack(
                     children: [
-                      CircleAvatar(
-                        backgroundImage: _getProfileImage(),
-                        backgroundColor: Colors.transparent,
-                        radius: 60,
+                      Selector<ProfileController, String>(
+                        selector: (context, controller) =>
+                            controller.imageFromDB,
+                        builder: (_, imageFromDB, _) {
+                          return CircleAvatar(
+                            backgroundImage: _getProfileImageProvider(
+                              imageFromDB,
+                            ),
+                            backgroundColor: Colors.transparent,
+                            radius: 60,
+                          );
+                        },
                       ),
                       Positioned(
                         bottom: 0,
                         right: 0,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.primaryContainer,
-                            ),
-                            child: GestureDetector(
-                              onTap: () async {
-                                _showDiloge(context);
-                              },
-                              child: Icon(Icons.camera_alt),
-                            ),
+                        child: Container(
+                          width: 35.w,
+                          height: 35.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
+                          ),
+                          child: GestureDetector(
+                            onTap: () async {
+                              _showDiloge(context);
+                            },
+                            child: Icon(Icons.camera_alt),
                           ),
                         ),
                       ),
@@ -207,16 +182,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 SizedBox(height: 6),
-                Text(
-                  userName,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleMedium!.copyWith(fontSize: 20),
+                Selector<ProfileController, String>(
+                  selector: (context, controller) => controller.userName,
+                  builder: (context, userName, child) {
+                    return Text(
+                      userName,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleMedium!.copyWith(fontSize: 20),
+                    );
+                  },
                 ),
 
-                Text(
-                  userDescraption,
-                  style: Theme.of(context).textTheme.titleSmall,
+                Selector<ProfileController, String>(
+                  selector: (context, controller) => controller.userDescraption,
+                  builder: (_, userDescraption, _) {
+                    return Text(
+                      userDescraption,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    );
+                  },
                 ),
                 SizedBox(height: 20),
                 Align(
@@ -245,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
 
                             if (result != null && result) {
-                              _loadSettings();
+                              // _loadSettings();
                               ;
                             }
                           },
@@ -285,16 +270,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Divider(thickness: 1),
                         ListTile(
                           onTap: () async {
-                            setState(() {
-                              
-                              PrefrenseManger().remove(StorageKey.autToken);
-                              Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                  builder: (context) => WelcomeScreen(),
+                          final rootContext = context ;
+                            (
+                              child: showDialog(
+                                context: context,
+                                 builder: (context)=>
+                                CustomeAlertDialog(
+                                  actionName: "LogOut",
+                                  title: " Log Out ",
+                                  content: 'Are you sure you want to log out?',
+                                  actionType: ActionEnum.delete,
+                                  onPress: () async {
+                                    bool response = await rootContext
+                                        .read<ProfileController>()
+                                        .logOut();
+                                    if (response) {
+                                      Navigator.of( rootContext).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (rootContext) => WelcomeScreen(),
+                                        ),
+                                        (Route<dynamic> reoute) => false,
+                                      );
+                                    }
+                                  },
                                 ),
-                                (Route<dynamic> route) => false,
-                              );
-                            });
+                              ),
+                            );
                           },
                           contentPadding: EdgeInsets.zero,
                           leading: CustomeSvgwidget(

@@ -2,7 +2,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:to_do_app/Services/prefrense_manger_service.dart';
+import 'package:to_do_app/Services/ip_config.dart';
 import 'package:to_do_app/core/constants/storage_key.dart';
 
 class GoogleAuthService {
@@ -27,7 +27,7 @@ class GoogleAuthService {
       // 3. إرسال التوكن للـ API بتاعك (الـ Laravel)
       // ملاحظة: لو شغال إيموليتر أندرويد استخدم 10.0.2.2 بدلاً من 127.0.0.1
       final response = await http.post(
-        Uri.parse('http://10.142.8.89:8000/api/google/callback'),
+        Uri.parse('http://${IpConfig.ipConfig}:8000/api/google/callback'),
         headers: {'Accept': 'application/json'},
         body: {'access_token': accessToken}, // السيرفيس في لارفل مستني ده
       );

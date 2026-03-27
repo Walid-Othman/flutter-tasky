@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_app/Services/taskService.dart';
 import 'package:to_do_app/Services/set_tasks.dart';
+import 'package:to_do_app/core/Controllers/data_controller.dart';
 import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/core/components/task_list_wedget.dart';
 
@@ -13,11 +15,7 @@ class HighPriorityScreen extends StatefulWidget {
 
 class _HighPriorityScreen extends State<HighPriorityScreen> {
   _doneTasks(bool value, int index) async {
-    if (index == null) return;
-    setState(() {
-      tasks[index].isComplet = value;
-    });
-    await TaskService().upDateTask(tasks[index]);
+    context.read<DataController>().toggleTask(tasks[index]);
   }
 
   List<TaskModel> tasks = [];
@@ -30,21 +28,22 @@ class _HighPriorityScreen extends State<HighPriorityScreen> {
   }
 
   Future _loadTask() async {
-    try {
-      isLoding = true;
-      final allTask = await TaskService().getTasks();
-      final highTasks = allTask.where((task) => task.ispriorty).toList();
-      setState(() {
-        tasks = highTasks;
-        isLoding = false;
-      });
-    } catch (e) {
-      print("the error is : $e");
-    }
+    // try {
+    //   isLoding = true;
+    //   final allTask = await TaskService().getTasks();
+    //   final highTasks = allTask.where((task) => task.ispriorty).toList();
+    //   setState(() {
+    //     tasks = highTasks;
+    //     isLoding = false;
+    //   });
+    // } catch (e) {
+    //   print("the error is : $e");
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
+  tasks =  context.watch<DataController>().isHighPriorty;
     return Scaffold(
       appBar: AppBar(title: Text('High Priority Tasks'), toolbarHeight: 50),
       body: isLoding

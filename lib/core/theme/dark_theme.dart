@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
@@ -36,18 +37,18 @@ ThemeData darkTheme = ThemeData(
   ),
   textTheme: TextTheme(
     displayMedium: TextStyle(
-      fontSize: 28,
+      fontSize: 28.sp,
       color: Color(0xFFfffcfc),
       fontWeight: FontWeight.w400,
     ),
     displaySmall: TextStyle(
-      fontSize: 24,
+      fontSize: 24.sp,
       color: Color(0xFFfffcfc),
       fontWeight: FontWeight.w400,
     ),
     titleLarge: TextStyle(
       color: Color(0xFFA0A0A0),
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       decoration: TextDecoration.lineThrough,
       decorationColor: Color(0xFFA0A0A0),
@@ -55,12 +56,12 @@ ThemeData darkTheme = ThemeData(
 
     titleMedium: TextStyle(
       color: Color(0xFFfffcfc),
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w400,
     ),
     titleSmall: TextStyle(
       color: Color(0xFFC6C6C6),
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
     ),
   ),
@@ -83,7 +84,7 @@ ThemeData darkTheme = ThemeData(
   listTileTheme: ListTileThemeData(
     titleTextStyle: TextStyle(
       color: Color(0xFFfffcfc),
-      fontSize: 20,
+      fontSize: 20.sp,
       fontWeight: FontWeight.w400,
     ),
   ),
@@ -105,7 +106,7 @@ ThemeData darkTheme = ThemeData(
     labelTextStyle: WidgetStateProperty.all(
       TextStyle(
         color: Color(0xFFfffcfc),
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.w400,
       ),
     ),
@@ -121,12 +122,12 @@ ThemeData darkTheme = ThemeData(
     backgroundColor: Color(0xFF181818),
     titleTextStyle: TextStyle(
       color: Color(0xFFfffcfc),
-      fontSize: 24,
+      fontSize: 24.sp,
       fontWeight: FontWeight.w400,
     ),
     contentTextStyle: TextStyle(
       color: Color(0xFFfffcfc),
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w400,
     ),
     actionsPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

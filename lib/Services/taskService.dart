@@ -1,14 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app/Services/ip_config.dart';
 import 'package:to_do_app/Services/prefrense_manger_service.dart';
 import 'package:to_do_app/core/constants/storage_key.dart';
-import 'dart:convert';
 import '../models/task_model.dart';
 
 class TaskService {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://10.142.8.89:8000/api',
+      baseUrl: 'http://${IpConfig.ipConfig}:8000/api',
       connectTimeout: Duration(seconds: 10),
       receiveTimeout: Duration(seconds: 10),
       headers: {'Accept': 'application/json'},

@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
             icon: _buildSvgPicture('assets/images/to_do.svg', 1),
-
+    
             label: ' To D0',
           ),
           BottomNavigationBarItem(
@@ -58,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
             icon: _buildSvgPicture('assets/images/profile.svg', 3),
-
+    
             label: 'Profile',
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -36,31 +37,31 @@ ThemeData lightTheme = ThemeData(
   ),
   textTheme: TextTheme(
     displayMedium: TextStyle(
-      fontSize: 28,
+      fontSize: 28.sp,
       color: Color(0xFF161f18),
       fontWeight: FontWeight.w400,
     ),
     displaySmall: TextStyle(
-      fontSize: 24,
+      fontSize: 24.sp,
       color: Color(0xFF161f18),
       fontWeight: FontWeight.w400,
     ),
     // done task
     titleLarge: TextStyle(
       color: Color(0xFFA6A6A6),
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       decoration: TextDecoration.lineThrough,
       decorationColor: Color(0xFF494949),
     ),
     titleMedium: TextStyle(
       color: Color(0xFF161F1B),
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w400,
     ),
     titleSmall: TextStyle(
       color: Color(0xFF3A4640),
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
     ),
   ),
@@ -90,7 +91,7 @@ ThemeData lightTheme = ThemeData(
   listTileTheme: ListTileThemeData(
     titleTextStyle: TextStyle(
       color: Color(0xFF161F1B),
-      fontSize: 20,
+      fontSize: 20.sp,
       fontWeight: FontWeight.w400,
     ),
   ),
@@ -112,7 +113,7 @@ ThemeData lightTheme = ThemeData(
     labelTextStyle: WidgetStateProperty.all(
       TextStyle(
         color: Color(0xFF161F1B),
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.w400,
       ),
     ),
@@ -128,12 +129,12 @@ ThemeData lightTheme = ThemeData(
     backgroundColor: Color(0xFFf6f7f9),
     titleTextStyle: TextStyle(
       color: Color(0xFF161F1B),
-      fontSize: 24,
+      fontSize: 24.sp,
       fontWeight: FontWeight.w400,
     ),
     contentTextStyle: TextStyle(
       color: Color(0xFF161F1B),
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w400,
     ),
     actionsPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

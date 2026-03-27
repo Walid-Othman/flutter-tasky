@@ -174,6 +174,20 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                                 model,
                               );
 
+                              if (success) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Task updated Successfully"),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Faild to update task"),
+                                  ),
+                                );
+                              }
+
                               return success;
                             },
                           ),
